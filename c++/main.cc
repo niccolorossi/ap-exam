@@ -1,11 +1,5 @@
 #include <iostream>
-
-
-using namespace std;
-
-int main() {
- 	// esketit
-
+#include "BST.cpp"
 
 int main() {
 
