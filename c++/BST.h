@@ -70,5 +70,46 @@ public:
   
 };
 
+class Iterator : public std::iterator<std::biderectional_iterator_tag, K> {
+	public: 
+		Iterator();
 
+		//operatore di confronto.
+		bool operator==(const Iterator& rhs) const;
+
+		bool operator!=(const Iterator& rhs) const;
+		
+		// operatore di dereference. ritorna una reference al valore puntato
+		const K& operator*() const;
+
+		//preincrement. si sposta al prossimo valore più grande
+		Iterator operator++();
+
+		//postincrement
+		Iterator operator++(int );
+
+	private:
+		friend class BST<K, V>;
+
+		const Node<K, V> *nodePtr;
+		const BST<K, V> *tree;
+
+		//utilizzato per costruire un iterator return value from a node poinet
+		Iterator (const Node<K, V> *p, const BST<K, V> *t);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
