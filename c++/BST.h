@@ -44,33 +44,31 @@ public:
 
   ConstIterator end() const;
   ConstIterator begin() const;
+  
+  const K& findMin( ) const;
+
+  const K& findMax( ) const;
+
+  bool contains( const V& v) const;
+	
+ 
+  //Controlla se l'albero è vuoto o meno.	
+  bool isEmpty() const {return root == nullptr; }
+  
+  // Stampa l'albero (da inserire quindi anche metodo per ordinarlo)
+
+  void printTree() const;
+
+  // svuota l'albero
+
+  void MakeEmpty( );
+  
+  
+  //inserisce un nuovo nodo all'interno dell'albero	
+  void insert(const K& key, const V& value);
 
   
-
 };
 
-template <class T>
-class BST<K, V>::Iterator : public std::iterator<std::forward_iterator_tag, T> {
-  using Node = BST<K, V>::Node;
 
-    Node* current;
 
-     public:
-       Iterator(Node* n) : current{n} {}
-       Iterator(const Iterator&) = default;
-       T& operator*() const { return current->val; }
-       Iterator& operator++() {
-       		current = current->next.get();
-       		return *this;
-       }
-       
-       Iterator operator++(int) {
-		Iterator it{*this};
-		++(*this);
-		return it;
-      }
-      
-      bool operator==(const Iterator& other) { return current == other.current; }
-      bool operator!=(const Iterator& other) { return !(*this == other); }
-					   
-};
