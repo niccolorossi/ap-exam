@@ -5,75 +5,66 @@
 #include "BST.h"
 
 template<typename K, typename V, typename C>
-bool BST<K,V,C>::insertPrivate(Node* curr_node, const std::pair<K,V>& pair) {
-	//confrontiamo usando il templated operator il valore che vogliamo aggiungere
-	//con quello che invece abbiamo nel nodo corrente (l'operatore funziona come
-	// > perchè abbiamo messo come default value C = std::greater<K>)
-	if(cfr(curr_node->_pair.first, pair.first)) {
-		//Il valore che vogliamo inserire è più piccolo. Dobbiamo scendere
-		// a sinistra. Ci sono due possibilità :
-		//1) non ha figli a sinistra e quindi avremo un nuovo nodo
-		//2) ha figlio a sinistra e allora occorre chiamare la funzione
-		// in maniera ricorsiva
-		if(!curr_node -> _left) {
-			// per creare un nuovo nodo utilizziamo un metodo degli uniqu
-			//pointers che è reset. Essenzialmente quello che fa è cancel
-			//lare quello a cui puntava prima left (in questo caso nullp)
-			//e ci assegna un nuovo valore in questo caso il pointer al
-			//nuovo nodo
+bool BST<K,V,C>::InsertPrivate(Node* curr_node, const std::pair<K,V>& pair)
+{
+	// by means of the templated operator we compare the key we want to insert and
+	// the key contained in curr_node. As a default value for C we set std::greater<K>
+	// hence the templated operator works like <
+	if(cfr(curr_node->_pair.first, pair.first))
+	{
+		// Argument key is smaller than current node key. We move left, therefore either:
+		// 1) curr_node has no left child -> we create a new Node
+		// 2) curr_node has a left child ->  recursive call to function
+		if(!curr_node -> _left)
+		{
+			// A new node is created via std::unique_ptr::reset().
+			// This deletes the memory which was previously managed
+			// and, instead, assigns a new value to the pointer
 			curr_node -> _left.reset(new Node(pair, curr_node));
-		} else {
-		//anche qua per recuperare il pointer al nodo nuovo a cui ci interes
-		//sa arrivare utilizziamo un altro metodo degli unique_ptr che è get
-		// che fa proprio questa cosa qua.
-			insertPrivate(curr_node->_left.get(), pair);
 		}
-	} else if (cfr(pair.first, curr_node -> _pair.first)) {
-		//è più grande, bisogna andare a destra e come prima bisogna stare
-		// attenti ai due casi.
-		if(!curr_node -> _right) {
+		else
+		{
+		// std::unique_ptr::get() returns a pointer to the managed memory
+		InsertPrivate(curr_node->_left.get(), pair);
+		}
+	}
+	else if (cfr(pair.first, curr_node -> _pair.first))
+	{
+		if(!curr_node -> _right)
+		{
 			curr_node -> _right.reset(new Node(pair, curr_node));
-		} else {
-			insertPrivate(curr_node -> _right.get(), pair);
-
-			insertPrivate(curr_node->_left.get(), pair);
 		}
-	} else if (cfr(pair.first, curr_node -> _pair.first)) {
-		//è più grande, bisogna andare a destra e come prima bisogna stare
-		// attenti ai due casi.
-		if(!curr_node -> _right) {
-			curr_node -> _right.reset(new Node(pair, curr_node));
-		} else {
-			insertPrivate(curr_node -> _right.get(), pair);
+		else
+		{
+			InsertPrivate(curr_node -> _right.get(), pair);
 		}
-	} else return false; // in caso di duplicati il risultato e false.
+	}
 
-	return true; // nel caso in cui abbia finito tutto correttamente ritorna true
+	else return false; // if key is already present it returns false
+
+	return true; 			 // if a new key is added correctly returns true
 }
 
 template<typename K, typename V, typename C>
-bool BST<K, V, C>::Insert(const std::pair<K,V>& pair) {
-	// nel chiamare quindi il metodo finale bisogna distinguere due casi fondame
-	// ntali : ha già dei nodi, oppure no?
-	if(!root) {
-	// in questo caso il nostro albero non ha radice quindi il nodo che inseriamo
-	// sarà il primo. Utilizziamo come prima il metodo reset degli unqiue ptr.
-	// nullptr è il pointer al parent del nodo che per la root è per forza uguale
-	// a nullptr
+bool BST<K, V, C>::insert(const std::pair<K,V>& pair)
+{
+ 	// initializes root if tree is empty
+	if(!root)
+	{
+		// first node is inserted via std::unique_ptr::get()
+		// the _parent pointer is nullptr for root
 		root.reset(new Node(pair, nullptr));
 		return true;
-	} else {
-		//qua invece chiamiamo la funzione insert. Anche qui pepr recuperare
-		//il pointer al nodo che ci interessa (in questo caso la radice)
-		// usiamo metodo get degli unique_ptr
-		return insertPrivate(root.get(), pair);
-
-		return insertPrivate(root.get(), pair);
+	}
+	else
+	{
+		// ...InsertPrivate is called; ptr obtained via std::unique_ptr::get()
+		return InsertPrivate(root.get(), pair);
 	}
 }
 
 template <class K, class V, typename C>
-class BST<K,V, C>::Iterator : public std::iterator<std::forward_iterator_tag, V>
+class BST<K,V,C>::Iterator : public std::iterator<std::forward_iterator_tag, K>
 {
 using Node = BST<K,V,C>::Node;
   Node* current;
@@ -81,10 +72,15 @@ using Node = BST<K,V,C>::Node;
 public:
   Iterator() {current = nullptr;}
   Iterator(Node* n) : current{n} {}
+<<<<<<< HEAD
   Iterator(const Iterator&) = default;                    // copy ctor deleted
   std::pair<K,V>& operator*() const { return current->_pair; }   // dereference operator
+=======
+  Iterator(const Iterator&) = default;                     // copy ctor deleted
+  V& operator*() const { return current->_pair.second; }   // dereference operator
+>>>>>>> esame/master
 
-  Iterator& operator++()                                  // increment operator
+  Iterator& operator++()                                   // increment operator
   {
     if (current->_right)
     {
@@ -137,14 +133,20 @@ std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
 template<typename K, typename V, typename C>
 class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 {
+<<<<<<< HEAD
 
 	if (root == nullptr){
 
 		return end();
 
+=======
+	if (root == nullptr)
+	{
+	return end();
+>>>>>>> esame/master
 	}
-
 	Node* first_node = root.get();
+<<<<<<< HEAD
 
 	while (first_node->_left != nullptr)
 	{
@@ -152,16 +154,19 @@ class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 		first_node = first_node->_left.get();
 
 
+=======
+	while (first_node->_left != nullptr)
+	{
+		first_node = first_node->_left.get();
+>>>>>>> esame/master
 	}
-
 	return Iterator{first_node};
-
-
 }
 
 template<typename K, typename V, typename C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 {
+<<<<<<< HEAD
 
 	if (root == nullptr){
 
@@ -177,16 +182,26 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 		first_node = first_node->_left.get();
 
 
+=======
+	if (root == nullptr)
+	{
+		return end();
+	}
+
+	Node* first_node = root.get();
+	while (first_node->_left != nullptr)
+	{
+		first_node = first_node->_left.get();
+>>>>>>> esame/master
 	}
 
 	return ConstIterator{first_node};
-
-
 }
 
 template<typename K, typename V, typename C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 {
+<<<<<<< HEAD
 
 	if (root == nullptr){
 
@@ -202,8 +217,41 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 		first_node = first_node->_left.get();
 
 
+=======
+	if (root == nullptr)
+	{
+		return end();
+	}
+
+	Node* first_node = root.get();
+	while (first_node->_left != nullptr)
+	{
+		first_node = first_node->_left.get();
+>>>>>>> esame/master
 	}
 
 	return ConstIterator{first_node};
-
 }
+<<<<<<< HEAD
+=======
+
+
+template <class K, class V, typename C>
+class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
+{
+ public:
+
+  using parent = BST<K,V,C>::Iterator;
+  using parent::Iterator;
+  const V& operator*() const { return parent::operator*(); }
+
+};
+
+template <class K, class V, typename C>
+std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
+  for (const auto& x : tree)
+    os << x << " ";
+  os << std::endl;
+  return os;
+}
+>>>>>>> esame/master
