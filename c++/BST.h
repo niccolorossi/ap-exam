@@ -43,7 +43,7 @@ public:
   Iterator end() {return Iterator{nullptr};}
 
   ConstIterator begin() const;
-  ConstIterator end() const {return Iterator{nullptr};}
+  ConstIterator end() const {return ConstIterator{nullptr};}
 
   ConstIterator cbegin() const;
   ConstIterator cend() const {return ConstIterator{nullptr};}
@@ -51,6 +51,8 @@ public:
   ConstIterator find(const K& item) const;          // ? poi metto mia
 
   bool insert(const std::pair<K,V>& pair);
+  template <class oK, class oV, typename oC>
+  friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 
 
 

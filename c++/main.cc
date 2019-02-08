@@ -17,8 +17,13 @@ int main() {
   myTree.insert(j);
   myTree.insert(k);
 
-  for(const auto& x : myTree)
-    std::cout << x << std::endl;
+  /*
+  for (const auto& x : myTree)
+    std::cout << x << " ";
+
+  std::cout << std::endl;
+  */
+  std::cout << myTree;
 
   return 0;
 }
