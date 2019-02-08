@@ -26,15 +26,15 @@ bool BST<K,V,C>::insertPrivate(Node* curr_node, const std::pair<K,V>& pair) {
 		//anche qua per recuperare il pointer al nodo nuovo a cui ci interes
 		//sa arrivare utilizziamo un altro metodo degli unique_ptr che è get
 		// che fa proprio questa cosa qua.
-			insert(curr_node->_left.get(), key, value);
+			insertPrivate(curr_node->_left.get(), pair);
 		}
-	} else if (cfr(key, curr_node -> data.first)) {
+	} else if (cfr(pair.first, curr_node -> _pair.first)) {
 		//è più grande, bisogna andare a destra e come prima bisogna stare
 		// attenti ai due casi.
 		if(!curr_node -> _right) {
-			curr_node -> _right.reset(new Node(key, value, curr_node));
+			curr_node -> _right.reset(new Node(pair, curr_node));
 		} else {
-			insert(curr_node -> _right.get(), key, value);
+			insertPrivate(curr_node -> _right.get(), pair);
 
 			insertPrivate(curr_node->_left.get(), pair);
 		}
@@ -66,7 +66,7 @@ bool BST<K, V, C>::Insert(const std::pair<K,V>& pair) {
 		//qua invece chiamiamo la funzione insert. Anche qui pepr recuperare
 		//il pointer al nodo che ci interessa (in questo caso la radice)
 		// usiamo metodo get degli unique_ptr
-		return insert(root.get(), key, value);
+		return insertPrivate(root.get(), pair);
 
 		return insertPrivate(root.get(), pair);
 	}
@@ -114,7 +114,7 @@ public:
 
 
 template<typename K, typename V, typename C>
-class BST<K,V,C>::Iterator BST<K,V,C>::begin() const
+class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 {
 
 	if (root == nullptr){
@@ -134,6 +134,31 @@ class BST<K,V,C>::Iterator BST<K,V,C>::begin() const
 	}
 
 	return Iterator{first_node};
+
+
+}
+
+template<typename K, typename V, typename C>
+class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
+{
+
+	if (root == nullptr){
+
+		return ConstIterator{root};
+
+	}
+
+	Node* first_node = root.get();
+
+	while (first_node->left != nullptr)
+	{
+
+		first_node = first_node->left.get();
+
+
+	}
+
+	return ConstIterator{first_node};
 
 
 }

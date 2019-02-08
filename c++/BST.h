@@ -32,22 +32,18 @@ public:
   class Iterator;
   class ConstIterator;
 
-  BST( const BST<K, V, C>& rhs );// copy costructor
-  BST(BST<K, V, C>&& rhs ); // move costructor
-  BST(const BST&& rhs); // move assignment
-
-  ~BST();  //destructor
-
   BST(const BST<K,V,C>& rhs);   // copy costructor
   BST(BST<K,V,C>&& rhs);        // move costructor
-  BST(const BST&& rhs);           // move assignment
-  //~BST();                         //destructor
+  BST(const BST&& rhs);         // move assignment
 
   // Dato il valore di una key la cerca all'interno dell'albero e ci restituisce
   // un iterator al nodo.
 
-  Iterator begin() const;
-  Iterator end() const {return Iterator{nullptr};}
+  Iterator begin();
+  Iterator end() {return Iterator{nullptr};}
+
+  ConstIterator begin() const;
+  ConstIterator end() const {return Iterator{nullptr};}
 
   ConstIterator cbegin() const;
   ConstIterator cend() const {return ConstIterator{nullptr};}
@@ -61,14 +57,6 @@ public:
 
   bool Insert(const K& key, const V& value);
 
-
-
-  Iterator begin();
-  Iterator end();
-  ConstIterator begin() const;
-  ConstIterator end() const;
-  ConstIterator cbegin() const;
-  ConstIterator cend() const;
 
 
   // è la funzione ricorsiva che si trova su tutti i libri. ha il problema di aver
