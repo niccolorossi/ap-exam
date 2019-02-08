@@ -9,6 +9,5 @@ int main() {
   myTree.Insert(n);
   myTree.Insert(m);
 
-
   return 0;
 }
