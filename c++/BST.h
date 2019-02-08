@@ -23,44 +23,38 @@ private:
 
   std::unique_ptr<Node> root;
   C cfr;
-	
+
 public:
 
   BST() {root = nullptr;}
   class Iterator;
   class ConstIterator;
-  
-  BST( const BST<K, V, C>& rhs );// copy costructor
- 
 
-  BST(BST<K, V, C>&& rhs ) // move costructor
+  BST( const BST<K, V, C>& rhs );// copy costructor
+  BST(BST<K, V, C>&& rhs ); // move costructor
   BST(const BST&& rhs); // move assignment
+
   ~BST();  //destructor
-  
+
   // Dato il valore di una key la cerca all'interno dell'albero e ci restituisce
   // un iterator al nodo.
-  ConstIterator find(const K& item) const;
 
   Iterator begin() const;
+  Iterator end() const {return Iterator{nullptr};}
 
   ConstIterator cbegin() const;
+  ConstIterator cend() const {return ConstIterator{nullptr};}
 
-  ConstIterator end() const;
-  ConstIterator begin() const;
-  
- 
-  //è la funzione ricorsiva che si trova su tutti i libri. ha il problema di aver 
-  //bisogno di un pointer ad un nodo come argomento iniziale. Per cui si puo usarla 
-  // chiamandola all'interno di un'altra funzione Insert. 
+  ConstIterator find(const K& item) const;
+
+  //è la funzione ricorsiva che si trova su tutti i libri. ha il problema di aver
+  //bisogno di un pointer ad un nodo come argomento iniziale. Per cui si puo usarla
+  // chiamandola all'interno di un'altra funzione Insert.
   bool insert(Node* curr_node, const K& key, const V& value);
 
   bool Insert(const K& key, const V& value);
 
-  
 
-  
+
+
 };
-
-
- 
-

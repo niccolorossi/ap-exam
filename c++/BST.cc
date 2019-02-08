@@ -13,7 +13,7 @@ bool BST<K,V,C>::insert(Node* curr_node, const K& key, const V& value) {
 		//Il valore che vogliamo inserire è più piccolo. Dobbiamo scendere
 		// a sinistra. Ci sono due possibilità :
 		//1) non ha figli a sinistra e quindi avremo un nuovo nodo
-		//2) ha figlio a sinistra e allora occorre chiamare la funzione 
+		//2) ha figlio a sinistra e allora occorre chiamare la funzione
 		// in maniera ricorsiva
 		if(!curr_node -> _left) {
 			// per creare un nuovo nodo utilizziamo un metodo degli uniqu
@@ -27,17 +27,17 @@ bool BST<K,V,C>::insert(Node* curr_node, const K& key, const V& value) {
 		//sa arrivare utilizziamo un altro metodo degli unique_ptr che è get
 		// che fa proprio questa cosa qua.
 			insert(curr_node->_left.get(), key, value);
-		} 
+		}
 	} else if (cfr(key, curr_node -> data.first)) {
 		//è più grande, bisogna andare a destra e come prima bisogna stare
-		// attenti ai due casi. 
+		// attenti ai due casi.
 		if(!curr_node -> _right) {
-			curr_node -> _right.reset(new Node(key, value, curr_node))
+			curr_node -> _right.reset(new Node(key, value, curr_node));
 		} else {
 			insert(curr_node -> _right.get(), key, value);
-		} 
+		}
 	} else return false; // in caso di duplicati il risultato e false.
-	
+
 	return true; // nel caso in cui abbia finito tutto correttamente ritorna true
 }
 
@@ -54,10 +54,10 @@ bool BST<K, V, C>::Insert(const K& key, const V& value) {
 		return true;
 	} else {
 		//qua invece chiamiamo la funzione insert. Anche qui pepr recuperare
-		//il pointer al nodo che ci interessa (in questo caso la radice) 
+		//il pointer al nodo che ci interessa (in questo caso la radice)
 		// usiamo metodo get degli unique_ptr
 		return insert(root.get(), key, value);
-	}	
+	}
 }
 
 template <class K, class V, typename C>
@@ -100,14 +100,65 @@ public:
 
 };
 
+
+template<typename K, typename V, typename C>
+class BST<K,V,C>::Iterator BST<K,V,C>::begin() const
+{
+
+	if (root == nullptr){
+
+		return Iterator{root};
+
+	}
+
+	Node* first_node = root.get();
+
+	while (first_node->left != nullptr)
+	{
+
+		first_node = first_node->left.get();
+
+
+	}
+
+	return Iterator{first_node};
+
+
+}
+
+template<typename K, typename V, typename C>
+class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
+{
+
+	if (root == nullptr){
+
+		return ConstIterator{root};
+
+	}
+
+	Node* first_node = root.get();
+
+	while (first_node->left != nullptr)
+	{
+
+		first_node = first_node->left.get();
+
+
+	}
+
+	return ConstIterator{first_node};
+
+}
+
+
+
 template <class K, class V, typename C>
-class BST<K,V>::ConstIterator : public BST<K,V>::Iterator
+class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
 {
  public:
 
-  using parent = BST<K,V, C>::Iterator;
+  using parent = BST<K,V,C>::Iterator;
   using parent::Iterator;
   const V& operator*() const { return parent::operator*(); }
 
 };
-
