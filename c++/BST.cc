@@ -72,8 +72,8 @@ using Node = BST<K,V,C>::Node;
 public:
   Iterator() {current = nullptr;}
   Iterator(Node* n) : current{n} {}
-  Iterator(const Iterator&) = default;                     // copy ctor deleted
-  V& operator*() const { return current->_pair.second; }   // dereference operator
+  Iterator(const Iterator&) = default;                    // copy ctor deleted
+  std::pair<K,V>& operator*() const { return current->_pair; }   // dereference operator
 
   Iterator& operator++()                                   // increment operator
   {
@@ -103,18 +103,34 @@ public:
 
 };
 
+template <class K, class V, typename C>
+class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
+{
+ public:
+
+  using parent = BST<K,V,C>::Iterator;
+  using parent::Iterator;
+  const std::pair<K,V>& operator*() const { return parent::operator*(); }
+
+};
+
 
 template<typename K, typename V, typename C>
 class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 {
+
 	if (root == nullptr)
 	{
 	return end();
 	}
 	Node* first_node = root.get();
+
 	while (first_node->_left != nullptr)
 	{
+
 		first_node = first_node->_left.get();
+
+
 	}
 	return Iterator{first_node};
 }
@@ -122,6 +138,8 @@ class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 template<typename K, typename V, typename C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 {
+
+
 	if (root == nullptr)
 	{
 		return end();
@@ -139,6 +157,7 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 template<typename K, typename V, typename C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 {
+
 	if (root == nullptr)
 	{
 		return end();
@@ -148,27 +167,20 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 	while (first_node->_left != nullptr)
 	{
 		first_node = first_node->_left.get();
+
 	}
 
 	return ConstIterator{first_node};
 }
 
 
-template <class K, class V, typename C>
-class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
-{
- public:
-
-  using parent = BST<K,V,C>::Iterator;
-  using parent::Iterator;
-  const V& operator*() const { return parent::operator*(); }
-
-};
-
-template <class K, class V, typename C>
+template <class K, class V, class C>
 std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
-  for (const auto& x : tree)
-    os << x << " ";
-  os << std::endl;
-  return os;
+
+	for(auto& x:tree)
+
+	os << "(" << x.first <<"," << x.second << ")" << "\n";
+
+	return os;
+
 }
