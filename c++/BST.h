@@ -43,7 +43,7 @@ public:
   Iterator end() {return Iterator{nullptr};}
 
   ConstIterator begin() const;
-  ConstIterator end() const {return Iterator{nullptr};}
+  ConstIterator end() const {return ConstIterator{nullptr};}
 
   ConstIterator cbegin() const;
   ConstIterator cend() const {return ConstIterator{nullptr};}

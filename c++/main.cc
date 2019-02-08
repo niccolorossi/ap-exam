@@ -9,5 +9,7 @@ int main() {
   myTree.Insert(n);
   myTree.Insert(m);
 
+   std::cout << myTree;
+
   return 0;
 }
