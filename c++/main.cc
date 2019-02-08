@@ -1,5 +1,6 @@
 #include <iostream>
-#include "BST.cpp"
+
+#include "BST.cc"
 
 int main() {
 
