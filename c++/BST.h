@@ -51,4 +51,7 @@ public:
   ConstIterator find(const K& item) const;          // ? poi metto mia
 
   bool insert(const std::pair<K,V>& pair);
+
+  template <class oK, class oV, typename oC>
+  friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 };
