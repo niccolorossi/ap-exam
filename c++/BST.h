@@ -22,7 +22,7 @@ private:
   };
 
   std::unique_ptr<Node> root;
-  C cfr;                                                              // ?
+  C cfr;                                                              
 
   // a recursive function that adds a new key-value pair to the subtree born from Node* curr_node.
   // we use it as a helper function called inside bool insert(const std::pair<K,V>& pair)
@@ -48,11 +48,9 @@ public:
   ConstIterator cbegin() const;
   ConstIterator cend() const {return ConstIterator{nullptr};}
 
-  ConstIterator find(const K& item) const;          // ? poi metto mia
+  ConstIterator find(const K& item) const;
 
   bool insert(const std::pair<K,V>& pair);
-  template <class oK, class oV, typename oC>
-  friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 
   template <class oK, class oV, typename oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
