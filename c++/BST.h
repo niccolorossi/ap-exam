@@ -1,6 +1,6 @@
 #include <memory>
 
-template<class K, class V>
+template<typename K, typename V, typename C = std::greater<K>>
 class BST
 {
 
@@ -10,27 +10,39 @@ private:
   {
     K key;
     V value;
-    std::unique_ptr<Node> left;
-    std::unique_ptr<Node> right;
+    std::unique_ptr<Node> _left;
+    std::unique_ptr<Node> _right;
     Node* parent;
     Node(const K& key, const V& value, Node* left, Node* right,
-    Node* parent) : key{key}, value{value}, left{left}, right{right}, parent{parent} {}
+    Node* parent) : key{key}, value{value}, _left{left}, _right{right}, _parent{parent} {}
     ~Node() = default;
   };
 
   std::unique_ptr<Node> root;
-
+  C cfr;
+	
 public:
 
   BST() {root = nullptr;}
   class Iterator;
   class ConstIterator;
   
-  BST( const BST& rhs ); // copy costructor
-  BST& operator=(const BST& rhs) ; // copy assignment
+  BST( const BST<K, V, C>& rhs ){
+  	if(rhs.root) copy(*rhs.root);
+  } // copy costructor
+  
+BST<K, V, C>& operator=(const BST<K, V, C>& rhs){
+  	if(!rhs.root) root.reset();
+	else {
+		i:x
+		f(root) clear();
+		copy(*rhs.root);
+	}
+	return *this;
+  } // copy assignment
 
 
-  BST( const BST&& rhs ); // move costructor
+  BST(BST<K, V, C>&& rhs ) noexcept: root{std::move(rhs.root)} {} // move costructor
   BST(const BST&& rhs); // move assignment
   ~BST();  //destructor
   
@@ -64,16 +76,24 @@ public:
   void MakeEmpty( );
   
   
-  //inserisce un nuovo nodo all'interno dell'albero	
-  void insert(const K& key, const V& value);
+  //è la funzione ricorsiva che si trova su tutti i libri. ha il problema di aver 
+  //bisogno di un pointer ad un nodo come argomento iniziale. Per cui si puo usarla 
+  // chiamandola all'interno di un'altra funzione Insert. 
+  bool insert(Node* curr_node, const K& key, const V& value);
+
+  bool Insert(const K& key, const V& value);
+
+  
 
   
 };
-
+template<typename K, typename V, typename C>
 class Iterator : public std::iterator<std::biderectional_iterator_tag, K> {
 	public: 
-		Iterator();
+		Iterator();:x
 
+		
+		BST<>
 		//operatore di confronto.
 		bool operator==(const Iterator& rhs) const;
 
@@ -86,30 +106,8 @@ class Iterator : public std::iterator<std::biderectional_iterator_tag, K> {
 		Iterator operator++();
 
 		//postincrement
-		Iterator operator++(int );
 
-	private:
-		friend class BST<K, V>;
+};
 
-		const Node<K, V> *nodePtr;
-		const BST<K, V> *tree;
-
-		//utilizzato per costruire un iterator return value from a node poinet
-		Iterator (const Node<K, V> *p, const BST<K, V> *t);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+ 
 
