@@ -5,7 +5,7 @@ bool BST<K,V,C>::insert(Node* curr_node, const K& key, const V& value) {
 	//confrontiamo usando il templated operator il valore che vogliamo aggiungere
 	//con quello che invece abbiamo nel nodo corrente (l'operatore funziona come
 	// > perchè abbiamo messo come default value C = std::greater<K>)
-	if(compare(curr_node->data.first, key)) {
+	if(cfr(curr_node->data.first, key)) {
 		//Il valore che vogliamo inserire è più piccolo. Dobbiamo scendere
 		// a sinistra. Ci sono due possibilità :
 		//1) non ha figli a sinistra e quindi avremo un nuovo nodo
@@ -24,7 +24,7 @@ bool BST<K,V,C>::insert(Node* curr_node, const K& key, const V& value) {
 		// che fa proprio questa cosa qua.
 			insert(curr_node->_left.get(), key, value);
 		} 
-	} else if (compare(key, curr_node -> data.first)) {
+	} else if (cfr(key, curr_node -> data.first)) {
 		//è più grande, bisogna andare a destra e come prima bisogna stare
 		// attenti ai due casi. 
 		if(!curr_node -> _right) {
