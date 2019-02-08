@@ -112,6 +112,17 @@ public:
 
 };
 
+template <class K, class V, typename C>
+class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
+{
+ public:
+
+  using parent = BST<K,V,C>::Iterator;
+  using parent::Iterator;
+  const std::pair<K,V>& operator*() const { return parent::operator*(); }
+
+};
+
 template <class K, class V, class C>
 std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
 
@@ -196,16 +207,3 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 	return ConstIterator{first_node};
 
 }
-
-
-
-template <class K, class V, typename C>
-class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
-{
- public:
-
-  using parent = BST<K,V,C>::Iterator;
-  using parent::Iterator;
-  const std::pair<K,V>& operator*() const { return parent::operator*(); }
-
-};
