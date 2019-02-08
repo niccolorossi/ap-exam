@@ -14,7 +14,7 @@ public:
   Iterator() {current = nullptr;}
   Iterator(Node* n) : current{n} {}
   Iterator(const Iterator&) = default;                    // copy ctor deleted
-  V& operator*() const { return current->_pair.first; }   // dereference operator
+  V& operator*() const { return current->_pair.second; }   // dereference operator
 
   Iterator& operator++()                                  // increment operator
   {
