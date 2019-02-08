@@ -54,6 +54,6 @@ public:
   template <class oK, class oV, typename oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 
-
-
+  template <class oK, class oV, typename oC>
+  friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 };
