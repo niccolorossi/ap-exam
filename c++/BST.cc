@@ -72,13 +72,8 @@ using Node = BST<K,V,C>::Node;
 public:
   Iterator() {current = nullptr;}
   Iterator(Node* n) : current{n} {}
-<<<<<<< HEAD
   Iterator(const Iterator&) = default;                    // copy ctor deleted
   std::pair<K,V>& operator*() const { return current->_pair; }   // dereference operator
-=======
-  Iterator(const Iterator&) = default;                     // copy ctor deleted
-  V& operator*() const { return current->_pair.second; }   // dereference operator
->>>>>>> esame/master
 
   Iterator& operator++()                                   // increment operator
   {
@@ -133,20 +128,12 @@ std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
 template<typename K, typename V, typename C>
 class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 {
-<<<<<<< HEAD
 
-	if (root == nullptr){
-
-		return end();
-
-=======
 	if (root == nullptr)
 	{
 	return end();
->>>>>>> esame/master
 	}
 	Node* first_node = root.get();
-<<<<<<< HEAD
 
 	while (first_node->_left != nullptr)
 	{
@@ -154,11 +141,6 @@ class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 		first_node = first_node->_left.get();
 
 
-=======
-	while (first_node->_left != nullptr)
-	{
-		first_node = first_node->_left.get();
->>>>>>> esame/master
 	}
 	return Iterator{first_node};
 }
@@ -166,23 +148,8 @@ class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 template<typename K, typename V, typename C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 {
-<<<<<<< HEAD
-
-	if (root == nullptr){
-
-		return end();
-
-	}
-
-	Node* first_node = root.get();
-
-	while (first_node->_left != nullptr)
-	{
-
-		first_node = first_node->_left.get();
 
 
-=======
 	if (root == nullptr)
 	{
 		return end();
@@ -192,7 +159,6 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 	while (first_node->_left != nullptr)
 	{
 		first_node = first_node->_left.get();
->>>>>>> esame/master
 	}
 
 	return ConstIterator{first_node};
@@ -201,23 +167,7 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 template<typename K, typename V, typename C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 {
-<<<<<<< HEAD
 
-	if (root == nullptr){
-
-		return end();
-
-	}
-
-	Node* first_node = root.get();
-
-	while (first_node->_left != nullptr)
-	{
-
-		first_node = first_node->_left.get();
-
-
-=======
 	if (root == nullptr)
 	{
 		return end();
@@ -227,31 +177,8 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 	while (first_node->_left != nullptr)
 	{
 		first_node = first_node->_left.get();
->>>>>>> esame/master
+
 	}
 
 	return ConstIterator{first_node};
 }
-<<<<<<< HEAD
-=======
-
-
-template <class K, class V, typename C>
-class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
-{
- public:
-
-  using parent = BST<K,V,C>::Iterator;
-  using parent::Iterator;
-  const V& operator*() const { return parent::operator*(); }
-
-};
-
-template <class K, class V, typename C>
-std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
-  for (const auto& x : tree)
-    os << x << " ";
-  os << std::endl;
-  return os;
-}
->>>>>>> esame/master
