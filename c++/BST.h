@@ -48,12 +48,7 @@ public:
   ConstIterator cbegin() const;
   ConstIterator cend() const;
 
-
-  // è la funzione ricorsiva che si trova su tutti i libri. ha il problema di aver
-  // bisogno di un pointer ad un nodo come argomento iniziale. Per cui si puo usarla
-  // chiamandola all'interno di un'altra funzione Insert.
-
-  bool Insert(const std::pair<K,V>& pair);
+  void insert(const std::pair<K,V>& pair);
 
 
 };
