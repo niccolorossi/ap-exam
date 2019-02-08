@@ -4,7 +4,6 @@
 
 #include "BST.h"
 
-<<<<<<< HEAD
 template<typename K, typename V, typename C>
 bool BST<K,V,C>::insert(Node* curr_node, const K& key, const V& value) {
 	//confrontiamo usando il templated operator il valore che vogliamo aggiungere
@@ -61,12 +60,10 @@ bool BST<K, V, C>::Insert(const K& key, const V& value) {
 	}	
 }
 
-
-=======
-template <class K, class V>
-class BST<K,V>::Iterator : public std::iterator<std::forward_iterator_tag, V>
+template <class K, class V, typename C>
+class BST<K,V, C>::Iterator : public std::iterator<std::forward_iterator_tag, V>
 {
-using Node = BST<K,V>::Node;
+using Node = BST<K,V,C>::Node;
   Node* current;
 
 public:
@@ -103,14 +100,14 @@ public:
 
 };
 
-template <class K, class V>
+template <class K, class V, typename C>
 class BST<K,V>::ConstIterator : public BST<K,V>::Iterator
 {
  public:
 
-  using parent = BST<K,V>::Iterator;
+  using parent = BST<K,V, C>::Iterator;
   using parent::Iterator;
   const V& operator*() const { return parent::operator*(); }
 
 };
->>>>>>> esame/master
+
