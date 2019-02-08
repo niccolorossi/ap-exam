@@ -26,7 +26,6 @@ bool BST<K,V,C>::insertPrivate(Node* curr_node, const std::pair<K,V>& pair) {
 		//anche qua per recuperare il pointer al nodo nuovo a cui ci interes
 		//sa arrivare utilizziamo un altro metodo degli unique_ptr che è get
 		// che fa proprio questa cosa qua.
-<<<<<<< HEAD
 			insert(curr_node->_left.get(), key, value);
 		}
 	} else if (cfr(key, curr_node -> data.first)) {
@@ -36,7 +35,7 @@ bool BST<K,V,C>::insertPrivate(Node* curr_node, const std::pair<K,V>& pair) {
 			curr_node -> _right.reset(new Node(key, value, curr_node));
 		} else {
 			insert(curr_node -> _right.get(), key, value);
-=======
+
 			insertPrivate(curr_node->_left.get(), pair);
 		}
 	} else if (cfr(pair.first, curr_node -> _pair.first)) {
@@ -46,7 +45,6 @@ bool BST<K,V,C>::insertPrivate(Node* curr_node, const std::pair<K,V>& pair) {
 			curr_node -> _right.reset(new Node(pair, curr_node));
 		} else {
 			insertPrivate(curr_node -> _right.get(), pair);
->>>>>>> esame/master
 		}
 	} else return false; // in caso di duplicati il risultato e false.
 
@@ -68,11 +66,9 @@ bool BST<K, V, C>::Insert(const std::pair<K,V>& pair) {
 		//qua invece chiamiamo la funzione insert. Anche qui pepr recuperare
 		//il pointer al nodo che ci interessa (in questo caso la radice)
 		// usiamo metodo get degli unique_ptr
-<<<<<<< HEAD
 		return insert(root.get(), key, value);
-=======
+
 		return insertPrivate(root.get(), pair);
->>>>>>> esame/master
 	}
 }
 
