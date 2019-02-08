@@ -114,16 +114,6 @@ class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
 
 };
 
-template <class K, class V, class C>
-std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
-
-	for(auto& x:tree)
-
-	os << "(" << x.first <<"," << x.second << ")" << "\n";
-
-	return os;
-
-}
 
 template<typename K, typename V, typename C>
 class BST<K,V,C>::Iterator BST<K,V,C>::begin()
@@ -181,4 +171,16 @@ class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 	}
 
 	return ConstIterator{first_node};
+}
+
+
+template <class K, class V, class C>
+std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
+
+	for(auto& x:tree)
+
+	os << "(" << x.first <<"," << x.second << ")" << "\n";
+
+	return os;
+
 }
