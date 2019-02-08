@@ -22,9 +22,12 @@ private:
   };
 
   std::unique_ptr<Node> root;
-  C cfr;
+  C cfr;                                                              // ?
 
-  bool insertPrivate(Node* curr_node, const std::pair<K,V>& pair);
+  // a recursive function that adds a new key-value pair to the subtree born from Node* curr_node.
+  // we use it as a helper function called inside bool insert(const std::pair<K,V>& pair)
+  // passing the root as the Node* value.
+  bool InsertPrivate(Node* curr_node, const std::pair<K,V>& pair);
 
 public:
 
@@ -36,9 +39,6 @@ public:
   BST(BST<K,V,C>&& rhs);        // move costructor
   BST(const BST&& rhs);         // move assignment
 
-  // Dato il valore di una key la cerca all'interno dell'albero e ci restituisce
-  // un iterator al nodo.
-
   Iterator begin();
   Iterator end() {return Iterator{nullptr};}
 
@@ -48,22 +48,9 @@ public:
   ConstIterator cbegin() const;
   ConstIterator cend() const {return ConstIterator{nullptr};}
 
-  ConstIterator find(const K& item) const;
+  ConstIterator find(const K& item) const;          // ? poi metto mia
 
-  //è la funzione ricorsiva che si trova su tutti i libri. ha il problema di aver
-  //bisogno di un pointer ad un nodo come argomento iniziale. Per cui si puo usarla
-  // chiamandola all'interno di un'altra funzione Insert.
-  bool insert(Node* curr_node, const K& key, const V& value);
-
-  bool Insert(const K& key, const V& value);
-
-
-
-  // è la funzione ricorsiva che si trova su tutti i libri. ha il problema di aver
-  // bisogno di un pointer ad un nodo come argomento iniziale. Per cui si puo usarla
-  // chiamandola all'interno di un'altra funzione Insert.
-
-  bool Insert(const std::pair<K,V>& pair);
+  bool insert(const std::pair<K,V>& pair);
 
 
 
