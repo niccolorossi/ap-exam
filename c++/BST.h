@@ -43,8 +43,12 @@ public:
      // copy costructor
   BST<K,V,C>(const BST<K,V,C>& rhs){copy(rhs.root);} // copy assignemnt
 
-  BST(BST<K,V,C>&& rhs);        // move costructor
-  BST(const BST&& rhs);         // move assignment
+  BST(BST<K,V,C>&& rhs)
+  	:root{std::move(rhs.root)} {}        // move costructor
+  BST<K,V,C>& operator=(const BST&& rhs){
+  	root = std::move(rhs.root);
+	return *this;
+  }// move assignment
 
   Iterator begin();
   Iterator end() {return Iterator{nullptr};}
