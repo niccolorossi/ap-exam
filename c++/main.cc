@@ -4,7 +4,7 @@
 
 int main() {
 
-  BST<int,int> myTree;
+  BST<int,int> myTree, myTree1;
   std::pair<int,int> n{7,7};
   std::pair<int,int> m{8,8};
   std::pair<int,int> i{1,1};
@@ -18,6 +18,8 @@ int main() {
   myTree.insert(i);
   myTree.insert(j);
   myTree.insert(k);
+
+  myTree1 = myTree;
 
   std::cout << myTree;
 
