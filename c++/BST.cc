@@ -184,3 +184,14 @@ std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
 	return os;
 
 }
+
+template<class K, class V, class C>
+void BST<K, V, C>::copy(const std::unique_ptr<Node>& curr_node) {
+	
+	if(curr_node != nullptr) // controlliamo che sia stata passato un pointer valido
+	{
+		insert(curr_node -> _pair); // inseriamo un nuovo nodo 
+		copy(curr_node -> _left);  // la chiama sul nodo a sinistra
+		copy(curr_node -> _right); // la chiama sul nodo a destra
+	}
+}
