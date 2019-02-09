@@ -43,7 +43,7 @@ public:
   BST(BST<K,V,C>&& rhs) : root{move(rhs->root.get())} {}  // move costructor
 
   BST& operator=(const BST&& rhs){
-    
+
     root.reset();
     root = move(rhs->root.get());
     return *this;
@@ -70,6 +70,11 @@ public:
 
   void Copy(Node *c);
 
+
+
+  void balance(BST<K,V> tree);
+
+  void balanceUtil(std::vector<std::pair<K, V>>& nodes, int start, int end);
 
 
 };

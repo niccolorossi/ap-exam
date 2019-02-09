@@ -23,6 +23,7 @@ int main() {
 
   std::cout << myTree1;
 
+  myTree.balance(myTree);
 
   return 0;
 }

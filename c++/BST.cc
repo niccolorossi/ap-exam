@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <utility>
+#include <vector>
 
 #include "BST.h"
 
@@ -201,7 +202,7 @@ BST<K,V,C>& BST<K,V,C>::operator=(const BST& rhs)
 template<class K,class V, class C>
 BST<K,V,C>::BST(const BST& rhs){
 
-	Copy(rhs->root.get());
+	Copy(rhs.root.get());
 
 }
 
@@ -215,4 +216,35 @@ void BST<K,V,C>::Copy(Node *c)
         Copy(c->_left.get());
         Copy(c->_right.get());
     }
+}
+
+template<class K,class V, class C>
+void BST<K,V,C>::balance(BST<K,V> tree){
+
+
+
+	 std::vector<std::pair<K, V>> pairVec;
+
+
+	 for(const auto& x: tree)
+	 {
+			 pairVec.push_back(x);
+	 }
+
+	balanceUtil(pairVec, 0, pairVec.size()-1 );
+
+
+}
+
+template<class K,class V, class C>
+void BST<K,V,C>::balanceUtil(std::vector<std::pair<K, V>>& pairVec, int start, int end){
+
+      if (start > end) return;
+
+      int mid = (start + end)/2;
+
+      insert(pairVec[mid]);
+      balanceUtil(pairVec, start, mid-1);
+      balanceUtil(pairVec, mid+1, end);
+
 }
