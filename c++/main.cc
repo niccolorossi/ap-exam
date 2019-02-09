@@ -21,7 +21,7 @@ int main() {
 
   myTree1 = myTree;
 
-  std::cout << myTree;
+  std::cout << myTree1;
 
 
   return 0;

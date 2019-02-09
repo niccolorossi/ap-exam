@@ -35,9 +35,20 @@ public:
   class Iterator;
   class ConstIterator;
 
-  BST(const BST<K,V,C>& rhs);   // copy costructor
-  BST(BST<K,V,C>&& rhs);        // move costructor
-  BST(const BST&& rhs);         // move assignment
+
+
+  BST (const BST<K,V,C>& rhs);   // cpy ctor
+  BST& operator=(const BST<K,V,C>& rhs);   // copy assignement
+
+  BST(BST<K,V,C>&& rhs) : root{move(rhs->root.get())} {}  // move costructor
+
+  BST& operator=(const BST&& rhs){
+    
+    root.reset();
+    root = move(rhs->root.get());
+    return *this;
+
+  };         // move assignment
 
   Iterator begin();
   Iterator end() {return Iterator{nullptr};}
@@ -51,8 +62,13 @@ public:
   ConstIterator find(const K& item) const;          // ? poi metto mia
 
   bool insert(const std::pair<K,V>& pair);
+
+  void clear() {root.reset();}
+
   template <class oK, class oV, typename oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
+
+  void Copy(Node *c);
 
 
 

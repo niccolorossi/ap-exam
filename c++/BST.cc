@@ -184,3 +184,35 @@ std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
 	return os;
 
 }
+
+template<class K,class V, class C>
+BST<K,V,C>& BST<K,V,C>::operator=(const BST& rhs)
+{
+    if(this != &rhs)
+    {
+        this->clear();
+        Node *c = rhs.root.get();
+        Copy(c);
+    }
+    return *this;
+}
+
+
+template<class K,class V, class C>
+BST<K,V,C>::BST(const BST& rhs){
+
+	Copy(rhs->root.get());
+
+}
+
+
+template<class K,class V, class C>
+void BST<K,V,C>::Copy(Node *c)
+{
+    if (c != nullptr)
+    {
+        this->insert(c->_pair);
+        Copy(c->_left.get());
+        Copy(c->_right.get());
+    }
+}
