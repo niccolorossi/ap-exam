@@ -74,7 +74,7 @@ public:
 
   void balance(BST<K,V> tree);
 
-  void balanceUtil(std::vector<std::pair<K, V>>& nodes, int start, int end);
+  void  balanceUtil(std::vector<std::pair<K, V>>& nodes, int start, int end);
 
 
 };
