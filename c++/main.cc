@@ -12,7 +12,7 @@ int main() {
   std::pair<int,int> j{5,50};
   std::pair<int,int> k{18,180};
 
-  
+
 
   myTree.insert(n);
   myTree.insert(m);
@@ -21,13 +21,8 @@ int main() {
   myTree.insert(k);
 
   std::cout << myTree;
-  BST<int, int> myTree2;
-  
-  myTree2 = myTree;
-  std::cout << "myTree2\n";
-  std::cout << myTree2;
-  BST<int, int>myTree3 = myTree2;
-  std::cout << "myTree3\n";
-  std::cout << myTree3;
+
+  BST<int,int>::Iterator iter = myTree.find(10);
+  std::cout << (*iter).second << std::endl;
   return 0;
 }
