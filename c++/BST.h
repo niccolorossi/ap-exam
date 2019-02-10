@@ -34,10 +34,21 @@ public:
   BST() {root = nullptr;}
   class Iterator;
   class ConstIterator;
+  // copy assignemnt 
+  BST<K,V,C>& operator=(const BST<K,V,C>& rhs){
+ 	clear(); // svuota l'albero a sinistra dell'uguale del suo attuale contenuto.
+	copy(rhs.root); // utilizziamo la funzione copy(ricorsiva) a partire dalla radice del nodo
+	return *this; // ritorniamo una reference al root node 
+  }
+     // copy costructor
+  BST<K,V,C>(const BST<K,V,C>& rhs){copy(rhs.root);} // copy assignemnt
 
-  BST(const BST<K,V,C>& rhs);   // copy costructor
-  BST(BST<K,V,C>&& rhs);        // move costructor
-  BST(const BST&& rhs);         // move assignment
+  BST(BST<K,V,C>&& rhs)
+  	:root{std::move(rhs.root)} {}        // move costructor
+  BST<K,V,C>& operator=(const BST&& rhs){
+  	root = std::move(rhs.root);
+	return *this;
+  }// move assignment
 
   Iterator begin();
   Iterator end() {return Iterator{nullptr};}
@@ -51,6 +62,11 @@ public:
   ConstIterator find(const K& item) const;
 
   bool insert(const std::pair<K,V>& pair);
+  //clear method
+  void clear() {root.reset();}
+   
+  void copy(const std::unique_ptr<Node>& curr_node); // funzione ricorsiva. passiamo uno unique_ptr perchè root, _right e _left lo sono
+
 
   template <class oK, class oV, typename oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
