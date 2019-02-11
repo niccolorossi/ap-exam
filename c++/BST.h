@@ -3,7 +3,7 @@
 #include <functional>
 #include <iostream>
 
-template<typename K, typename V, typename C = std::greater<K>>
+template<class K, class V, class C = std::greater<K>>
 class BST
 {
 
@@ -14,7 +14,7 @@ private:
     std::pair<K,V> _pair;               // key and value stored in a single object
     std::unique_ptr<Node> _left;        // points to left child
     std::unique_ptr<Node> _right;       // points to right child
-    Node* _parent;                      // a parent node is is pointed by more than an obj (hence not unique)
+    Node* _parent;                      // ownership of a _parent node already retained
     Node(const std::pair<K,V>& pair,
       Node* parent) : _pair{pair}, _left{nullptr}, _right{nullptr}, _parent{parent} {}
 
@@ -22,7 +22,7 @@ private:
   };
 
   std::unique_ptr<Node> root;
-  C cfr;                                                              // ?
+  C cfr;
 
   // a recursive function that adds a new key-value pair to the subtree born from Node* curr_node.
   // we use it as a helper function called inside bool insert(const std::pair<K,V>& pair)
@@ -35,9 +35,27 @@ public:
   class Iterator;
   class ConstIterator;
 
-  BST(const BST<K,V,C>& rhs);   // copy costructor
-  BST(BST<K,V,C>&& rhs);        // move costructor
-  BST(const BST&& rhs);         // move assignment
+  // copy assignemnt
+  BST<K,V,C>& operator=(const BST<K,V,C>& rhs)
+  {
+ 	  clear();         // empty lhs tree from its current content
+	  copy(rhs.root);  // call to helper function (starting from root node)
+	   return *this;   // return a reference to the tree managed by root
+  }
+
+  // copy costructor
+  BST<K,V,C>(const BST<K,V,C>& rhs) { copy(rhs.root); }
+
+  // move costructor
+  BST(BST<K,V,C>&& rhs)
+  	: root{std::move(rhs.root)} {}
+
+  // move assignment
+  BST<K,V,C>& operator=(const BST&& rhs)
+  {
+  	root = std::move(rhs.root);
+	  return *this;
+  }
 
   Iterator begin();
   Iterator end() {return Iterator{nullptr};}
@@ -48,12 +66,23 @@ public:
   ConstIterator cbegin() const;
   ConstIterator cend() const {return ConstIterator{nullptr};}
 
-  ConstIterator find(const K& item) const;          // ? poi metto mia
+  ConstIterator find(const K& item) const;
 
   bool insert(const std::pair<K,V>& pair);
-  template <class oK, class oV, typename oC>
-  friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 
+<<<<<<< HEAD
   template <class oK, class oV, typename oC>
+=======
+  // clear method
+  void clear() { root.reset(); }
+
+  // helper function used for copy constuctor/assignemnt
+  void copy(const std::unique_ptr<Node>& curr_node);
+
+  Iterator find(const K& key);
+
+
+  template <class oK, class oV, class oC>
+>>>>>>> master
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 };
