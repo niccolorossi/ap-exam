@@ -2,8 +2,11 @@
 #include <utility>
 #include <functional>
 #include <iostream>
+#include <vector>
+
 
 template<class K, class V, class C = std::greater<K>>
+
 class BST
 {
 
@@ -31,7 +34,8 @@ private:
 
 public:
 
-  BST() {root = nullptr;}
+  BST() { root = nullptr; }
+  ~BST() { clear(); }
   class Iterator;
   class ConstIterator;
 
@@ -70,6 +74,15 @@ public:
 
   bool insert(const std::pair<K,V>& pair);
 
+
+  std::vector<std::pair<K, V>> fromBSTtoVector();
+
+  void fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo);
+
+  void balance();
+
+
+
   // clear method
   void clear() { root.reset(); }
 
@@ -80,5 +93,6 @@ public:
 
 
   template <class oK, class oV, class oC>
+
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 };
