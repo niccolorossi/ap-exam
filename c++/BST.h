@@ -2,7 +2,7 @@
 #include <utility>
 #include <functional>
 #include <iostream>
-
+#include <vector>
 template<typename K, typename V, typename C = std::greater<K>>
 class BST
 {
@@ -66,7 +66,8 @@ public:
   void clear() {root.reset();}
    
   void copy(const std::unique_ptr<Node>& curr_node); // funzione ricorsiva. passiamo uno unique_ptr perchè root, _right e _left lo sono
-
+  
+  std::vector<std::pair<K, V>> fromBSTtoVector();
 
   template <class oK, class oV, typename oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
