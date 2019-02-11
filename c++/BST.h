@@ -2,11 +2,8 @@
 #include <utility>
 #include <functional>
 #include <iostream>
-#include <vector>
-
 
 template<class K, class V, class C = std::greater<K>>
-
 class BST
 {
 
@@ -34,8 +31,7 @@ private:
 
 public:
 
-  BST() { root = nullptr; }
-  ~BST() { clear(); }
+  BST() {root = nullptr;}
   class Iterator;
   class ConstIterator;
 
@@ -93,6 +89,7 @@ public:
 
 
   template <class oK, class oV, class oC>
-
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
+
+
 };
