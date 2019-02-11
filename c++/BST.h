@@ -95,4 +95,8 @@ public:
   template <class oK, class oV, class oC>
 
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
+
+  void balance();
+
+  void  balanceUtil(std::vector<std::pair<K, V>>& nodes, int start, int end);
 };

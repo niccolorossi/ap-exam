@@ -6,6 +6,7 @@ int main() {
 
   BST<int,int> myTree;
 
+
   std::pair<int,int> m{10,100};
   std::pair<int,int> n{11,110};
   std::pair<int,int> i{1,10};
@@ -20,9 +21,10 @@ int main() {
   myTree.insert(j);
   myTree.insert(k);
 
-  std::cout << myTree;
 
-  BST<int,int>::Iterator iter = myTree.find(10);
+  myTree.balance();
+
+  BST<int,int>::Iterator iter = myTree.find(18);
   std::cout << (*iter).second << std::endl;
   return 0;
 }
