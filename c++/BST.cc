@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <utility>
+#include <vector>
 
 #include "BST.h"
 
@@ -202,4 +203,36 @@ typename BST<K,V,C>::Iterator BST<K,V,C>::find(const K& key)
   }
 
   return end();
+}
+
+
+template<class K,class V, class C>
+void BST<K,V,C>::balanceUtil(std::vector<std::pair<K, V>>& pairVec, int start, int end){
+
+      if (start > end) return;
+
+      int mid = (start + end)/2;
+
+      insert(pairVec[mid]);
+      balanceUtil(pairVec, start, mid-1);
+      balanceUtil(pairVec, mid+1, end);
+
+}
+
+template<class K,class V, class C>
+void BST<K,V,C>::balance(){
+
+
+
+std::vector<std::pair<K, V>> pairVec;
+
+
+for(const auto& x: *this)
+{
+pairVec.push_back(x);
+}
+
+balanceUtil(pairVec, 0, pairVec.size()-1 );
+
+
 }
