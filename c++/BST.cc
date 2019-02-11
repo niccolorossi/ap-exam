@@ -206,3 +206,24 @@ std::vector<std::pair<K, V>> BST<K,V,C>::fromBSTtoVector(){
 
 	return nodi_ordinati;
 }
+
+template<class K, class V, class C>
+void BST<K,V,C>::fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo){
+
+	if(primo > ultimo){
+		return;
+	}
+
+	int meta = (primo + ultimo) / 2;
+
+	insert(nodi[meta]);
+	fromVectortoBalance(nodi, primo, meta - 1);
+	fromVectortoBalance(nodi, meta + 1, ultimo);
+}
+
+template<class K, class V, class C>
+void BST<K, V, C>::balance(){
+	std::vector<std::pair<K,V>> vettore = this -> fromBSTtoVector();
+	clear();
+        fromVectortoBalance(vettore, 0, vettore.size() - 1);
+}
