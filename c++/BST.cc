@@ -4,7 +4,7 @@
 
 #include "BST.h"
 
-template<typename K, typename V, typename C>
+template<class K, class V, class C>
 bool BST<K,V,C>::InsertPrivate(Node* curr_node, const std::pair<K,V>& pair)
 {
 	// by means of the templated operator we compare the key we want to insert and
@@ -24,8 +24,8 @@ bool BST<K,V,C>::InsertPrivate(Node* curr_node, const std::pair<K,V>& pair)
 		}
 		else
 		{
-		// std::unique_ptr::get() returns a pointer to the managed memory
-		InsertPrivate(curr_node->_left.get(), pair);
+			// std::unique_ptr::get() returns a pointer to the managed memory
+			InsertPrivate(curr_node->_left.get(), pair);
 		}
 	}
 	else if (cfr(pair.first, curr_node -> _pair.first))
@@ -45,7 +45,7 @@ bool BST<K,V,C>::InsertPrivate(Node* curr_node, const std::pair<K,V>& pair)
 	return true; 			 // if a new key is added correctly returns true
 }
 
-template<typename K, typename V, typename C>
+template<class K, class V, class C>
 bool BST<K, V, C>::insert(const std::pair<K,V>& pair)
 {
  	// initializes root if tree is empty
@@ -63,7 +63,7 @@ bool BST<K, V, C>::insert(const std::pair<K,V>& pair)
 	}
 }
 
-template <class K, class V, typename C>
+template <class K, class V, class C>
 class BST<K,V,C>::Iterator : public std::iterator<std::forward_iterator_tag, K>
 {
 using Node = BST<K,V,C>::Node;
@@ -115,72 +115,91 @@ class BST<K,V,C>::ConstIterator : public BST<K,V,C>::Iterator
 };
 
 
-template<typename K, typename V, typename C>
+template<class K, class V, class C>
 class BST<K,V,C>::Iterator BST<K,V,C>::begin()
 {
-
 	if (root == nullptr)
 	{
 	return end();
 	}
 	Node* first_node = root.get();
-
 	while (first_node->_left != nullptr)
 	{
-
 		first_node = first_node->_left.get();
-
-
 	}
 	return Iterator{first_node};
 }
 
-template<typename K, typename V, typename C>
+template<class K, class V, class C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::begin() const
 {
-
-
 	if (root == nullptr)
 	{
 		return end();
 	}
-
 	Node* first_node = root.get();
 	while (first_node->_left != nullptr)
 	{
 		first_node = first_node->_left.get();
 	}
-
 	return ConstIterator{first_node};
 }
 
-template<typename K, typename V, typename C>
+template<class K, class V, class C>
 class BST<K,V,C>::ConstIterator BST<K,V,C>::cbegin() const
 {
-
 	if (root == nullptr)
 	{
 		return end();
 	}
-
 	Node* first_node = root.get();
 	while (first_node->_left != nullptr)
 	{
 		first_node = first_node->_left.get();
-
 	}
-
 	return ConstIterator{first_node};
 }
 
 
 template <class K, class V, class C>
-std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree) {
-
-	for(auto& x:tree)
-
-	os << "(" << x.first <<"," << x.second << ")" << "\n";
-
+std::ostream& operator<<(std::ostream& os, const BST<K,V,C>& tree)
+ {
+	for (const auto& x : tree)
+		os << "(" << x.first <<"," << x.second << ")" << "\n";
 	return os;
+}
 
+template<class K, class V, class C>
+void BST<K, V, C>::copy(const std::unique_ptr<Node>& curr_node)
+{
+	if(curr_node != nullptr) 			// check for a valid pointer
+	{
+		insert(curr_node -> _pair); // new node inserted
+		copy(curr_node -> _left);   // recursive call on left node
+		copy(curr_node -> _right);  // recursive call on right node
+	}
+}
+
+template <class K, class V, class C>
+typename BST<K,V,C>::Iterator BST<K,V,C>::find(const K& key)
+{
+  Node* n = root.get();
+
+	while(n)
+  {
+    if(key < n->_pair.first)
+    {
+      n = n->_left.get();
+    }
+    else if (key > n->_pair.first)
+    {
+      n = n->_right.get();
+    }
+    else if (key == n->_pair.first)
+    {
+      return Iterator(n);
+    }
+  }
+
+  return end();
 }

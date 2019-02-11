@@ -22,6 +22,7 @@ int main() {
 
   std::cout << myTree;
 
-
+  BST<int,int>::Iterator iter = myTree.find(10);
+  std::cout << (*iter).second << std::endl;
   return 0;
 }
