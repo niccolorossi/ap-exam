@@ -70,7 +70,15 @@ public:
 
   bool insert(const std::pair<K,V>& pair);
 
-  template <class oK, class oV, typename oC>
+
+  std::vector<std::pair<K, V>> fromBSTtoVector();
+
+  void fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo);
+
+  void balance();
+
+
+
   // clear method
   void clear() { root.reset(); }
 
@@ -83,5 +91,5 @@ public:
   template <class oK, class oV, class oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 
-  
+
 };
