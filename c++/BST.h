@@ -70,9 +70,7 @@ public:
 
   bool insert(const std::pair<K,V>& pair);
 
-<<<<<<< HEAD
   template <class oK, class oV, typename oC>
-=======
   // clear method
   void clear() { root.reset(); }
 
@@ -83,6 +81,5 @@ public:
 
 
   template <class oK, class oV, class oC>
->>>>>>> master
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 };
