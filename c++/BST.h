@@ -34,7 +34,8 @@ private:
 
 public:
 
-  BST() {root = nullptr;}
+  BST() { root = nullptr; }
+  ~BST() { clear(); }
   class Iterator;
   class ConstIterator;
 
@@ -73,13 +74,13 @@ public:
 
   bool insert(const std::pair<K,V>& pair);
 
-  
+
   std::vector<std::pair<K, V>> fromBSTtoVector();
-  
+
   void fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo);
-	
+
   void balance();
-  
+
 
 
   // clear method

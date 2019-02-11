@@ -207,12 +207,14 @@ void BST<K,V,C>::fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, in
 }
 
 template<class K, class V, class C>
-void BST<K, V, C>::balance(){
+void BST<K, V, C>::balance()
+{
 	std::vector<std::pair<K,V>> vettore = this -> fromBSTtoVector();
 	clear();
-        fromVectortoBalance(vettore, 0, vettore.size() - 1);
+  fromVectortoBalance(vettore, 0, vettore.size() - 1);
+}
 
-  template <class K, class V, class C>
+template <class K, class V, class C>
 typename BST<K,V,C>::Iterator BST<K,V,C>::find(const K& key)
 {
   Node* n = root.get();
@@ -232,6 +234,6 @@ typename BST<K,V,C>::Iterator BST<K,V,C>::find(const K& key)
       return Iterator(n);
     }
   }
-
+	std::cout << "The key " << key << " was not found in the tree.\n";
   return end();
 }
