@@ -19,6 +19,7 @@
  *
  *
  **/
+
 template<class K, class V, class C = std::greater<K>>
 class BST
 {
@@ -76,10 +77,13 @@ private:
   bool InsertPrivate(Node* curr_node, const std::pair<K,V>& pair);
 
 public:
+
   /**constructor of a new BST object */
   BST() { root = nullptr; }
   /** default destructor */
   ~BST() { clear(); }
+
+  BST() {root = nullptr;}
 
   class Iterator;
   class ConstIterator;
@@ -224,6 +228,7 @@ public:
    */
 
   template <class oK, class oV, class oC>
-
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 }
+
+};
