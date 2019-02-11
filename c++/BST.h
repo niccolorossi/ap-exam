@@ -15,7 +15,7 @@
  *
  * @tparam K is the typename of the key
  * @tparam V is the typename of the value
- * @tparam C is the typename of the operator used to compare different keys 
+ * @tparam C is the typename of the operator used to compare different keys
  *
  *
  **/
@@ -29,24 +29,24 @@ private:
    * @brief Class that implements one node of the tree
    *
    * Each node stores a pair composed of a key and a value. Each node can have
-   * at most 2 children (one left and one right). We store also for every node 
-   * the parent. 
+   * at most 2 children (one left and one right). We store also for every node
+   * the parent.
    *
-   * @tparam K is the typename of the key 
+   * @tparam K is the typename of the key
    * @tparam V is the typename of the value
    * @tparam C is the operator used to compare two different keys
    */
   struct Node
   {
     /** Key and value are stored in a single std::pair object */
-    std::pair<K,V> _pair;              
+    std::pair<K,V> _pair;
     /** pointer to the left child */
-    std::unique_ptr<Node> _left; 
+    std::unique_ptr<Node> _left;
     /** pointer to the right child */
-    std::unique_ptr<Node> _right; 
+    std::unique_ptr<Node> _right;
     /**pointer to the parent node */
-    Node* _parent;                
-    
+    Node* _parent;
+
     /**constructor for a new Node object */
     Node(const std::pair<K,V>& pair,
       Node* parent) : _pair{pair}, _left{nullptr}, _right{nullptr}, _parent{parent} {}
@@ -65,7 +65,7 @@ private:
    * passed as arguments it compares the new key passed with the key of the current
    * node. If it is smaller and the current node doesn't have a left child a node is
    * created and set as left child of the current node. If it has a child the functio
-   * is called recursevly on the left child. The same thing is done if the key is 
+   * is called recursevly on the left child. The same thing is done if the key is
    * bigger with the right child. It returns true in case of a correct insertion and
    * false in case of a duplicated node
    *
@@ -83,14 +83,12 @@ public:
   /** default destructor */
   ~BST() { clear(); }
 
-  BST() {root = nullptr;}
-
   class Iterator;
   class ConstIterator;
 
  /**
   * @brief Copy assignment
-  * 
+  *
   * @param rhs the tree that we want to copy from
   */
   BST<K,V,C>& operator=(const BST<K,V,C>& rhs)
@@ -125,38 +123,38 @@ public:
   	root = std::move(rhs.root);
 	  return *this;
   }
-  
+
   /**
    * @brief Returns an Iterator to the first in order node of the tree
    */
   Iterator begin();
-  
+
   /**
    * @brief Returns a pointer to the end of the tree, indicated by nullptr
    */
   Iterator end() {return Iterator{nullptr};}
-  
+
   /**
    * @brief Returns a const iterator to the first node
    */
   ConstIterator begin() const;
-  
+
   /**
-   * @brief Returns a const iterator to the last node 
+   * @brief Returns a const iterator to the last node
    */
   ConstIterator end() const {return ConstIterator{nullptr};}
- 
+
   ConstIterator cbegin() const;
   ConstIterator cend() const {return ConstIterator{nullptr};}
-  
-  
+
+
   /**
    * @brief Givena key value, it returns an Iterator to a node in the tree
    *
    * @param item the key value that we want to look up
    */
   ConstIterator find(const K& item) const;
-  
+
   /**
    * @brief Inserts a new node in the tree
    *
@@ -173,7 +171,7 @@ public:
    *
    * Given a BST object the function returns a vector of pairs key-value in order.
    *
-   * 
+   *
    */
 
   std::vector<std::pair<K, V>> fromBSTtoVector();
@@ -181,7 +179,7 @@ public:
   /**
    * @brief Auxiliary function used in the balance routine
    *
-   * It creates a BST starting from an ordered vector. It starts by setting the 
+   * It creates a BST starting from an ordered vector. It starts by setting the
    * middle element of the vector as root and then calls the function recursevly
    * on the left and right halves of the vector
    *
@@ -190,7 +188,7 @@ public:
    * @param ultimo the index of the last element
    */
   void fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo);
-  
+
   /**
    * @brief Creates a balanced BST starting from an unbalanced one
    */
@@ -206,13 +204,13 @@ public:
    *
    * This function is called by both the copy constructor and the copy assignemnt
    * functions. To perform a deep copy we add a node with the same value as the one
-   * of the current node to a tree and then, if children are present, we call the 
+   * of the current node to a tree and then, if children are present, we call the
    * the function on the children of the current node
    *
    * @param curr_node a pointer to the current node
    */
   void copy(const std::unique_ptr<Node>& curr_node);
-  
+
   /**
    * @brief non const version of the find function
    *
@@ -229,6 +227,4 @@ public:
 
   template <class oK, class oV, class oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
-}
-
 };
