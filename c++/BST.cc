@@ -181,6 +181,40 @@ void BST<K, V, C>::copy(const std::unique_ptr<Node>& curr_node)
 	}
 }
 
+
+template<class K, class V, class C>
+std::vector<std::pair<K, V>> BST<K,V,C>::fromBSTtoVector(){
+	std::vector<std::pair<K,V>> nodi_ordinati;
+	for(auto const& nodo : *this){
+		std::pair<K,V> coppia(nodo.first, nodo.second);
+		nodi_ordinati.push_back(coppia);
+	}
+
+	return nodi_ordinati;
+}
+
+template<class K, class V, class C>
+void BST<K,V,C>::fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo){
+
+	if(primo > ultimo){
+		return;
+	}
+
+	int meta = (primo + ultimo) / 2;
+
+	insert(nodi[meta]);
+	fromVectortoBalance(nodi, primo, meta - 1);
+	fromVectortoBalance(nodi, meta + 1, ultimo);
+}
+
+template<class K, class V, class C>
+void BST<K, V, C>::balance()
+{
+	std::vector<std::pair<K,V>> vettore = this -> fromBSTtoVector();
+	clear();
+  fromVectortoBalance(vettore, 0, vettore.size() - 1);
+}
+
 template <class K, class V, class C>
 typename BST<K,V,C>::Iterator BST<K,V,C>::find(const K& key)
 {
@@ -201,6 +235,6 @@ typename BST<K,V,C>::Iterator BST<K,V,C>::find(const K& key)
       return Iterator(n);
     }
   }
-
+	std::cout << "The key " << key << " was not found in the tree.\n";
   return end();
 }
