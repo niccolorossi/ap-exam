@@ -22,7 +22,6 @@ int main() {
   myTree.insert(k);
 
 
-  myTree.balance();
 
   BST<int,int>::Iterator iter = myTree.find(18);
   std::cout << (*iter).second << std::endl;
