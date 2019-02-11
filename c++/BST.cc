@@ -195,3 +195,14 @@ void BST<K, V, C>::copy(const std::unique_ptr<Node>& curr_node) {
 		copy(curr_node -> _right); // la chiama sul nodo a destra
 	}
 }
+
+template<class K, class V, class C>
+std::vector<std::pair<K, V>> BST<K,V,C>::fromBSTtoVector(){
+	std::vector<std::pair<K,V>> nodi_ordinati;
+	for(auto const& nodo : *this){
+		std::pair<K,V> coppia(nodo.first, nodo.second);
+		nodi_ordinati.push_back(coppia);
+	}
+
+	return nodi_ordinati;
+}
