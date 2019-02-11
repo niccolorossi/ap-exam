@@ -68,7 +68,10 @@ public:
   void copy(const std::unique_ptr<Node>& curr_node); // funzione ricorsiva. passiamo uno unique_ptr perchè root, _right e _left lo sono
   
   std::vector<std::pair<K, V>> fromBSTtoVector();
-
+  
+  void fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo);
+	
+  void balance();
   template <class oK, class oV, typename oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 };
