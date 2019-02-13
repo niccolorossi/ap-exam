@@ -41,12 +41,11 @@ class PostcardList:
         """
         this function writes postcards to an outfile "nomefile"
         """
-        #self._file = nomefile
+        self._file = nomefile
         out_file = open(self._file,"w")
 
         for i in self._postcards:
             out_file.write(i)
-            #out_file.write("\n")
 
         out_file.close()
 
@@ -62,12 +61,13 @@ class PostcardList:
         out_file.close()
         self.parsePostcards()
 
+
     def parsePostcards(self):
         """
         this function updates the dictionaries with already stored postcards
         """
         for i in range(len(self._postcards)):
-            date,sender,receiver = self._postcards[i].split(" ") #now I split date, sender and receiver.
+            date,sender,receiver = self._postcards[i].split(" ") 
             date = date[5:15]
             date = datetime.strptime(date, "%Y-%m-%d")
             if date not in self._date:
@@ -87,12 +87,11 @@ class PostcardList:
         """
         this function appends postcards to an outfile "nomefile"
         """
-        #self._file = nomefile
-        out_file = open(self._file,"a") #the option "a" appends to an existing file
+        self._file = nomefile
+        out_file = open(self._file,"a") 
 
         for i in self._postcards:
             out_file.write(i)
-            #out_file.write("\n")
 
         out_file.close()
 
@@ -106,9 +105,7 @@ class PostcardList:
         out_file = open(nomefile, "r")
         self._postcards = out_file.readlines()
         out_file.close()
-        self.parsePostcards() #until here i stored every line in content
-
-
+        self.parsePostcards() 
 
 
     def getNumberOfPostcards(self):
@@ -143,15 +140,6 @@ class PostcardList:
 
         return returned_postcards
 
-        #i = 0
-        #while i < len(self._postcards):
-        #    d,f,t = self._postcards[i].split(" ")
-        #
-        #    if f != sender:
-        #        del self._postcards[i]
-        #    else:
-        #        i += 1
-
 
     def getPostcardsByReceiver(self, receiver):
         """
@@ -164,16 +152,6 @@ class PostcardList:
                         returned_postcards.append(self._postcards[value])
 
         return returned_postcards
-
-        #i = 0
-        #while i < len(self._postcards):
-        #    d,f,t = self._postcards[i].split(" ")
-        #
-        #    if t != receiver:
-        #        del self._postcards[i]
-        #    else:
-        #        i += 1
-
 
 # In[9]:
 

@@ -238,3 +238,23 @@ typename BST<K,V,C>::Iterator BST<K,V,C>::find(const K& key)
 	std::cout << "The key " << key << " was not found in the tree.\n";
   return end();
 }
+
+template <class K, class V, class C>
+V& BST<K,V,C>::operator[](const K& key)
+{
+	std::pair<K,V> p(key,V{});
+	this->insert(p);
+	Iterator iter = this->find(key);
+	return (*iter).second;
+}
+
+template <class K, class V, class C>
+const V& BST<K,V,C>::operator[](const K& key) const
+{
+	ConstIterator iter = this->find(key);
+	if (iter != nullptr)
+	{
+		return (*iter).second;
+	}
+	else throw;
+}
