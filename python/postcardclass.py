@@ -3,10 +3,11 @@
 
 # In[8]:
 
+from datetime import datetime
 
-class PostcardList():
+class PostcardList:
     
-    def __init__(self, _file, _postcards, _date, _from, _to):
+    def __init__(self):
         """
         class initializer: 
         _file is the file name (or path);
@@ -15,7 +16,7 @@ class PostcardList():
         _from is a dict: the sender name is key, each index refers to the corresponding record;
         _to is a dict: the receiver is key, each index refers to the corresponding record.
         """
-        self._file = _file
+        self._file = ""
         self._postcards = []
         self._date = {}
         self._from = {}
@@ -66,12 +67,16 @@ class PostcardList():
         """
         for i in range(len(self._postcards)):
             date,sender,receiver = self._postcards[i].split("; ") #now I split date, sender and receiver.
+            date = date[5:15]
+            date = datetime.strptime(date, "%Y-%m-%d")
             if date not in self._date:
                 self._date[date] = []
             self._date[date].append(i)
+            sender = sender[5:]
             if sender not in self._from:
                 self._from[sender] = []
             self._from[sender].append(i)
+            receiver = receiver[3:]
             if receiver not in self._to:
                 self._to[receiver] = []
             self._to[receiver].append(i)
@@ -105,6 +110,7 @@ class PostcardList():
             self._postcards.append(content[i])
             
         nomefile.close()
+        self.parsePostcards()
            
             
     def getNumberOfPostcards(self):
@@ -120,7 +126,7 @@ class PostcardList():
         """
         returned_postcards = [];
         for key in self._date:
-            if (key < date_range):
+            if (date_range[0] <= key <= date_range[1]):
                 for value in self._date[key]:
                     returned_postcards.append(self._postcards[value])
         
