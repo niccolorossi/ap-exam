@@ -224,7 +224,14 @@ public:
    * @param os the std::ostream where to print the result
    * @param bst the BST object we want to print
    */
-
+  V& operator[](const K& key);
+  const V& operator [](const K& key) const;
   template <class oK, class oV, class oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
+  /*
+  template <class oK, class oV, class oC>
+  friend oV& operator[](const oK& key);
+  template <class oK, class oV, class oC>
+  friend const oV& operator[](const oK& key) const;
+  */
 };
