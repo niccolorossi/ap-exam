@@ -6,10 +6,10 @@
 from datetime import datetime
 
 class PostcardList:
-    
+
     def __init__(self):
         """
-        class initializer: 
+        class initializer:
         _file is the file name (or path);
         _postcards is the list of postcards read from _file;
         _date is a dict: "date" string is key, each index refers to the corresponding record;
@@ -21,105 +21,103 @@ class PostcardList:
         self._date = {}
         self._from = {}
         self._to = {}
-        
-        
+
+
     def __iter__(self):
         """
         a function used for unpacking class members
         """
         return (i for i in (self._postcard, self._date, self._from, self._to))
-    
-    
+
+
     def __eq__(self, other):
         """
         a function used to assert equivalence between class instances
         """
         return tuple(self)==tuple(other)
-    
-    
-    def writeFile(self, nomefile): 
+
+
+    def writeFile(self, nomefile):
         """
         this function writes postcards to an outfile "nomefile"
         """
-        self._file = nomefile
+        #self._file = nomefile
         out_file = open(self._file,"w")
-        
+
         for i in self._postcards:
             out_file.write(i)
-            out_file.write("\n")
-            
+            #out_file.write("\n")
+
         out_file.close()
-        
-        
+
+
     def readFile(self, nomefile):
         """
         this function reads postcards from an outfile "nomefile"
         """
-        self._file= nomefile
-        with open(self._file) as f:
-            content = f.readlines()
-        self._postcards = [x.strip() for x in content]            #until here i stored every line in content
-            
-            
+
+        self._file = nomefile
+        out_file = open(nomefile, "r")
+        self._postcards = out_file.readlines()
+        out_file.close()
+        self.parsePostcards()
+
     def parsePostcards(self):
         """
         this function updates the dictionaries with already stored postcards
         """
         for i in range(len(self._postcards)):
-            date,sender,receiver = self._postcards[i].split("; ") #now I split date, sender and receiver.
+            date,sender,receiver = self._postcards[i].split(" ") #now I split date, sender and receiver.
             date = date[5:15]
             date = datetime.strptime(date, "%Y-%m-%d")
             if date not in self._date:
                 self._date[date] = []
             self._date[date].append(i)
-            sender = sender[5:]
+            sender = sender[5:-1]
             if sender not in self._from:
                 self._from[sender] = []
             self._from[sender].append(i)
-            receiver = receiver[3:]
+            receiver = receiver[3:-2]
             if receiver not in self._to:
                 self._to[receiver] = []
             self._to[receiver].append(i)
-            
-    
+
+
     def updateFile(self, nomefile):
         """
         this function appends postcards to an outfile "nomefile"
         """
-        self._file = nomefile
+        #self._file = nomefile
         out_file = open(self._file,"a") #the option "a" appends to an existing file
-        
+
         for i in self._postcards:
             out_file.write(i)
-            out_file.write("\n")
-            
+            #out_file.write("\n")
+
         out_file.close()
-        
+
 
     def updateLists(self, nomefile):
         """
         this function reads postcards from an outfile and appends them to
         self._postcards
         """
-        self._file= nomefile
-        with open(self._file) as f:
-            content = f.readlines()
-        content = [x.strip() for x in content] #until here i stored every line in content
-        
-        for i in range(len(content)):
-            self._postcards.append(content[i])
-            
-        nomefile.close()
-        self.parsePostcards()
-           
-            
+        self._file = nomefile
+        out_file = open(nomefile, "r")
+        self._postcards = out_file.readlines()
+        out_file.close()
+        self.parsePostcards() #until here i stored every line in content
+
+
+
+
     def getNumberOfPostcards(self):
         """
         this function returns the number of postcards read
         """
         return len(self._postcards)
-    
-    
+
+
     def getPostcardsByDateRange(self,date_range):
         """
         this function returns all the postcards within a given date_range
@@ -129,10 +127,10 @@ class PostcardList:
             if (date_range[0] <= key <= date_range[1]):
                 for value in self._date[key]:
                     returned_postcards.append(self._postcards[value])
-        
+
         return returned_postcards
-    
-    
+
+
     def getPostcardsBySender(self, sender):
         """
         this function returns all the postcards from a given sender
@@ -142,19 +140,19 @@ class PostcardList:
             if (key == sender):
                     for value in self._from[key]:
                         returned_postcards.append(self._postcards[value])
-        
+
         return returned_postcards
-    
+
         #i = 0
         #while i < len(self._postcards):
         #    d,f,t = self._postcards[i].split(" ")
-        #    
+        #
         #    if f != sender:
         #        del self._postcards[i]
         #    else:
-        #        i += 1        
-                
-                
+        #        i += 1
+
+
     def getPostcardsByReceiver(self, receiver):
         """
         this function returns all the postcards to a given receiver
@@ -164,17 +162,17 @@ class PostcardList:
             if (key == receiver):
                     for value in self._to[key]:
                         returned_postcards.append(self._postcards[value])
-        
+
         return returned_postcards
-               
+
         #i = 0
         #while i < len(self._postcards):
         #    d,f,t = self._postcards[i].split(" ")
-        #    
+        #
         #    if t != receiver:
         #        del self._postcards[i]
         #    else:
-        #        i += 1 
+        #        i += 1
 
 
 # In[9]:
@@ -268,7 +266,3 @@ class PostcardList:
 
 
 # In[ ]:
-
-
-
-
