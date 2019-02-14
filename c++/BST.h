@@ -1,6 +1,6 @@
 /**
- * @file BST.h
- * @brief Header file for our Advanced Programming final project
+ * @file   BST.h
+ * @brief  Header file for our Advanced Programming final project
  * @author Niccolò Rossi, Nicola Meneghini and Lorenzo Fresco
  */
 
@@ -26,7 +26,7 @@ class BST
 
 private:
   /**
-   * @brief Class that implements one node of the tree
+   * @brief struct that implements one node of the tree
    *
    * Each node stores a pair composed of a key and a value. Each node can have
    * at most 2 children (one left and one right). We store also for every node
@@ -44,27 +44,28 @@ private:
     std::unique_ptr<Node> _left;
     /** pointer to the right child */
     std::unique_ptr<Node> _right;
-    /**pointer to the parent node */
+    /** pointer to the parent node */
     Node* _parent;
 
-    /**constructor for a new Node object */
+    /** constructor for a new Node object */
     Node(const std::pair<K,V>& pair,
       Node* parent) : _pair{pair}, _left{nullptr}, _right{nullptr}, _parent{parent} {}
     /** default destructor */
     ~Node() = default;
   };
-  /**pointer to the root of the tree */
+  /** pointer to the root of the tree */
   std::unique_ptr<Node> root;
-  /**comparison operator */
+  /** comparison operator */
   C cfr;
+
   /**
-   * @brief Supplementary function that adds a node in a given tree
+   * @brief Supplementary function that adds a node in a given subtree
    *
    *
-   * A recursive that adds a new key-value pair to the subtree. Given a current node
-   * passed as arguments it compares the new key passed with the key of the current
+   * A recursive function that adds a new key-value pair to the subtree. Given a current node
+   * passed as argument it compares the new key passed with the key of the current
    * node. If it is smaller and the current node doesn't have a left child a node is
-   * created and set as left child of the current node. If it has a child the functio
+   * created and set as left child of the current node. If it has a child the function
    * is called recursevly on the left child. The same thing is done if the key is
    * bigger with the right child. It returns true in case of a correct insertion and
    * false in case of a duplicated node
@@ -76,11 +77,45 @@ private:
    */
   bool InsertPrivate(Node* curr_node, const std::pair<K,V>& pair);
 
+  /**
+   * @brief Supplementary function used to create a deep copy of a tree
+   *
+   * This function is called by both the copy constructor and the copy assignemnt
+   * functions. To perform a deep copy we add a node with the same value as the one
+   * of the current node to a tree and then, if children are present, we call the
+   * function on the children of the current node
+   *
+   * @param curr_node a pointer to the current node
+   */
+  void copy(const std::unique_ptr<Node>& curr_node);
+
+  /**
+   * @brief Auxiliary function used in the balance function
+   *
+   * Given a BST object the function returns a vector of pairs key-value in order.
+   *
+   *
+   */
+   std::vector<std::pair<K, V>> fromBSTtoVector();
+
+  /**
+   * @brief Auxiliary function used in the balance routine
+   *
+   * It creates a BST starting from an ordered vector. It starts by setting the
+   * middle element of the vector as root and then calls the function recursevly
+   * on the left and right halves of the vector
+   *
+   * @param nodi is the ordered pairs vector
+   * @param primo the index of the first element
+   * @param ultimo the index of the last element
+   */
+  void fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo);
+
 public:
 
   /**constructor of a new BST object */
   BST() { root = nullptr; }
-  /** default destructor */
+  /**destructor */
   ~BST() { clear(); }
 
   class Iterator;
@@ -95,7 +130,7 @@ public:
   {
  	  clear();         // empty lhs tree from its current content
 	  copy(rhs.root);  // call to helper function (starting from root node)
-	   return *this;   // return a reference to the tree managed by root
+	  return *this;    // return a reference to the tree managed by root
   }
 
   /**
@@ -110,7 +145,7 @@ public:
    *
    * @param rhs the tree that we need to move
    */
-  BST(BST<K,V,C>&& rhs)
+  BST<K,V,C>(BST<K,V,C>&& rhs)
   	: root{std::move(rhs.root)} {}
 
   /**
@@ -118,7 +153,7 @@ public:
    *
    * @param the tree that we want to move
    */
-  BST<K,V,C>& operator=(const BST&& rhs)
+  BST<K,V,C>& operator=(BST&& rhs)
   {
   	root = std::move(rhs.root);
 	  return *this;
@@ -149,7 +184,7 @@ public:
 
 
   /**
-   * @brief Givena key value, it returns an Iterator to a node in the tree
+   * @brief Given a key value, it returns an Iterator to a node in the tree
    *
    * @param item the key value that we want to look up
    */
@@ -167,29 +202,6 @@ public:
   bool insert(const std::pair<K,V>& pair);
 
   /**
-   * @brief Auxiliary function used in the balance function
-   *
-   * Given a BST object the function returns a vector of pairs key-value in order.
-   *
-   *
-   */
-
-  std::vector<std::pair<K, V>> fromBSTtoVector();
-
-  /**
-   * @brief Auxiliary function used in the balance routine
-   *
-   * It creates a BST starting from an ordered vector. It starts by setting the
-   * middle element of the vector as root and then calls the function recursevly
-   * on the left and right halves of the vector
-   *
-   * @param nodi is the ordered pairs vector
-   * @param primo the index of the first element
-   * @param ultimo the index of the last element
-   */
-  void fromVectortoBalance(const std::vector<std::pair<K,V>>& nodi, int primo, int ultimo);
-
-  /**
    * @brief Creates a balanced BST starting from an unbalanced one
    */
   void balance();
@@ -198,18 +210,6 @@ public:
    * @breif Clears the current content of a given BST object
    */
   void clear() { root.reset(nullptr); }
-
-  /**
-   * @brief Supplementary function used to create a deep copy of a tree
-   *
-   * This function is called by both the copy constructor and the copy assignemnt
-   * functions. To perform a deep copy we add a node with the same value as the one
-   * of the current node to a tree and then, if children are present, we call the
-   * the function on the children of the current node
-   *
-   * @param curr_node a pointer to the current node
-   */
-  void copy(const std::unique_ptr<Node>& curr_node);
 
   /**
    * @brief non const version of the find function
@@ -228,10 +228,4 @@ public:
   const V& operator [](const K& key) const;
   template <class oK, class oV, class oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
-  /*
-  template <class oK, class oV, class oC>
-  friend oV& operator[](const oK& key);
-  template <class oK, class oV, class oC>
-  friend const oV& operator[](const oK& key) const;
-  */
 };

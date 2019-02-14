@@ -64,6 +64,9 @@ bool BST<K, V, C>::insert(const std::pair<K,V>& pair)
 	}
 }
 
+
+
+// our implementation of Iterator class
 template <class K, class V, class C>
 class BST<K,V,C>::Iterator : public std::iterator<std::forward_iterator_tag, K>
 {
@@ -71,12 +74,12 @@ using Node = BST<K,V,C>::Node;
   Node* current;
 
 public:
-  Iterator() {current = nullptr;}
+  Iterator() : current{nullptr} {}
   Iterator(Node* n) : current{n} {}
-  Iterator(const Iterator&) = default;                    // copy ctor deleted
+  Iterator(const Iterator&) = default;                    			 // copy ctor deleted
   std::pair<K,V>& operator*() const { return current->_pair; }   // dereference operator
 
-  Iterator& operator++()                                   // increment operator
+  Iterator& operator++()                                   			 // increment operator
   {
     if (current->_right)
     {
