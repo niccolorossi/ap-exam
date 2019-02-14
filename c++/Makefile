@@ -1,26 +1,15 @@
-SRC = main.cc
-EXE = $(SRC:.cc=.x)
-
+MAIN = main.x
 CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++11
-
-all: $(EXE)
-
-%.o: %.cc
-	$(CXX) -c $< -o $@ $(CXXFLAGS)
+MAINSRC = src/main.cc
+CXXFLAGS = -std=c++11 -Wall -Wextra
 
 
-$(EXE): src/main.o
-	$(CXX) $^ -o $(EXE)
+all: $(MAIN)
 
-main.o: src/main.cc
-
-BST.o: include/BST.h
-
-format: $(SRC) include/BST.h
-	@clang-format -i $^ 2>/dev/null || echo "Please install clang-format to run this commands"
+$(MAIN): $(MAINSRC)
+	$(CXX) -g $< -o $(MAIN) $(CXXFLAGS)
 
 clean:
-	rm -rf *.o main.x $(EXE) *~ *~
+	@rm -fr *.o
 
-.PHONY: clean all format
+.PHONY: clean all
