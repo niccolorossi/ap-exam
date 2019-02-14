@@ -10,14 +10,14 @@ all: $(EXE)
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 
-$(EXE): main.o
+$(EXE): src/main.o
 	$(CXX) $^ -o $(EXE)
 
-main.o: main.cc
+main.o: src/main.cc
 
-BST.o: BST.h
+BST.o: include/BST.h
 
-format: $(SRC) BST.h
+format: $(SRC) include/BST.h
 	@clang-format -i $^ 2>/dev/null || echo "Please install clang-format to run this commands"
 
 clean:
