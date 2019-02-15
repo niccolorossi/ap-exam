@@ -6,7 +6,7 @@
 #include <cmath>
 #include <map>
 
-#include "../include/BST.cc"
+#include "BST.h"
 
 template <class TM, class K, class V>
 void Timing (std::ofstream& nome_file, TM tree, std::vector<std::pair<K,V>> v){

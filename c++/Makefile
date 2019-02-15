@@ -1,15 +1,20 @@
-MAIN = main.x
+MAIN = main.o
 CXX = g++
 MAINSRC = src/main.cc
 CXXFLAGS = -std=c++11 -Wall -Wextra
+IFLAGS = -I include 
 
 
-all: $(MAIN)
+
+all: $(MAIN) docs
+
+docs:
+	doxygen docs/Doxyfile
 
 $(MAIN): $(MAINSRC)
-	$(CXX) -g $< -o $(MAIN) $(CXXFLAGS)
+	$(CXX)  $< -o $(MAIN) $(CXXFLAGS) $(IFLAGS)
 
 clean:
-	@rm -fr *.o
+	@rm -fr *.o html latex
 
-.PHONY: clean all
+.PHONY: all docs clean

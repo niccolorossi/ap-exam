@@ -10,6 +10,9 @@
 #include <iostream>
 #include <vector>
 
+#ifndef BST_H__
+#define BST_H__
+
 /**
  * @brief This class implements a simple Binary Search Tree
  *
@@ -229,3 +232,7 @@ public:
   template <class oK, class oV, class oC>
   friend std::ostream& operator<<(std::ostream&, const BST<oK,oV,oC>&);
 };
+
+#include "BST.cpp"
+
+#endif //BST_H__ 
