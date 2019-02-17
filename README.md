@@ -1,2 +1,3 @@
 # ap-exam
-Material for the exam in Advanced Programming.
+This is a collaborative repository by Niccolò Rossi, Nicola Meneghini and Lorenzo Fresco; it contains our final project for the exam in Advanced Programming. 
+The assignment consisted in two separated tasks: the "c++" folder contains an implementation of a templated binary search trees (BST), which is explained in a short pdf entitled "report". On the other hand, in the "python" folder there are two .py files: one concerns the implementation of a "PostcardList" class which manages I/O for simple text messages, and the other contains a series of unit tests, for which the various .txt files were used.
