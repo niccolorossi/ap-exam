@@ -1,20 +1,24 @@
-MAIN = main.o
+BEN = benchmark.x
+TEST = test.x
 CXX = g++
-MAINSRC = src/main.cc
+BENSRC = src/benchmark.cpp
+TESTSRC = src/test.cpp
 CXXFLAGS = -std=c++11 -Wall -Wextra
-IFLAGS = -I include 
+IFLAGS = -I include
 
 
 
-all: $(MAIN) docs
+all: $(BEN) $(TEST) docs
 
 docs:
 	doxygen docs/Doxyfile
 
-$(MAIN): $(MAINSRC)
-	$(CXX)  $< -o $(MAIN) $(CXXFLAGS) $(IFLAGS)
+$(BEN): $(BENSRC)
+	$(CXX)  $< -o $(BEN) $(CXXFLAGS) $(IFLAGS)
+
+$(TEST): $(TESTSRC)
+	$(CXX)  $< -o $(TEST) $(CXXFLAGS) $(IFLAGS)
 
 clean:
-	@rm -fr *.o html latex
-
+	@rm -fr *.x html latex
 .PHONY: all docs clean
