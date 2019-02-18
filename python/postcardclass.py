@@ -66,21 +66,23 @@ class PostcardList:
         """
         this function updates the dictionaries with already stored postcards
         """
-        for i in range(len(self._postcards)):
-            date,sender,receiver = self._postcards[i].split(" ") 
-            date = date[5:15]
-            date = datetime.strptime(date, "%Y-%m-%d")
-            if date not in self._date:
-                self._date[date] = []
-            self._date[date].append(i)
-            sender = sender[5:-1]
-            if sender not in self._from:
-                self._from[sender] = []
-            self._from[sender].append(i)
-            receiver = receiver[3:-2]
-            if receiver not in self._to:
-                self._to[receiver] = []
-            self._to[receiver].append(i)
+        j=0
+        for i in self._postcards:
+            d,f,t = i.split(" ")
+            d = d[5:-1]
+            d = datetime.strptime(d, "%Y-%m-%d")
+            if d not in self._date:
+                self._date[d] = []
+            self._date[d].append(j)
+            f = f[5:-1]
+            if f not in self._from:
+                self._from[f] = []
+            self._from[f].append(j)
+            t = t[3:-2]
+            if t not in self._to:
+                self._to[t] = []
+            self._to[t].append(j)
+            j=j+1
 
 
     def updateFile(self, nomefile):
@@ -88,7 +90,7 @@ class PostcardList:
         this function appends postcards to an outfile "nomefile"
         """
         self._file = nomefile
-        out_file = open(self._file,"a") 
+        out_file = open(self._file,"a")
 
         for i in self._postcards:
             out_file.write(i)
@@ -105,7 +107,7 @@ class PostcardList:
         out_file = open(nomefile, "r")
         self._postcards = out_file.readlines()
         out_file.close()
-        self.parsePostcards() 
+        self.parsePostcards()
 
 
     def getNumberOfPostcards(self):
@@ -119,11 +121,16 @@ class PostcardList:
         """
         this function returns all the postcards within a given date_range
         """
-        returned_postcards = [];
-        for key in self._date:
-            if (date_range[0] <= key <= date_range[1]):
-                for value in self._date[key]:
-                    returned_postcards.append(self._postcards[value])
+
+        returned_postcards = []
+        i = 0
+        while i < len(self._postcards):
+            d,f,t = self._postcards[i].split(" ")
+            d = d[5:-1]
+            d = datetime.strptime(d, "%Y-%m-%d")
+            if (date_range[0] <= d <= date_range[1]):
+                returned_postcards.append(self._postcards[i])
+            i=i+1
 
         return returned_postcards
 
@@ -132,11 +139,15 @@ class PostcardList:
         """
         this function returns all the postcards from a given sender
         """
-        returned_postcards = [];
-        for key in self._from:
-            if (key == sender):
-                    for value in self._from[key]:
-                        returned_postcards.append(self._postcards[value])
+        returned_postcards = []
+        i = 0
+        while i < len(self._postcards):
+            d,f,t = self._postcards[i].split(" ")
+            f = f[5:-1]
+
+            if f == sender:
+                returned_postcards.append(self._postcards[i])
+            i=i+1
 
         return returned_postcards
 
@@ -145,102 +156,15 @@ class PostcardList:
         """
         this function returns all the postcards to a given receiver
         """
-        returned_postcards = [];
-        for key in self._to:
-            if (key == receiver):
-                    for value in self._to[key]:
-                        returned_postcards.append(self._postcards[value])
+
+        returned_postcards = []
+        i = 0
+        while i < len(self._postcards):
+            d,f,t = self._postcards[i].split(" ")
+            t = t[3:-2]
+
+            if t == receiver:
+                returned_postcards.append(self._postcards[i])
+            i=i+1
 
         return returned_postcards
-
-# In[9]:
-
-
-#p = postcardclass("txt", [], {}, {}, {})
-#p._postcards = ["date:2013-09-16; from:Dewey; to:Happy;", "date:2017-03-31; from:Mickey; to:Pluto;", "date:2011-08-24; from:Dewey; to:Dopey;"]
-#p.writeFile("txt") #scrivo su file
-
-
-#p2 = postcardclass("txt", [], {}, {}, {})
-#p2.readFile("txt") #leggo su file
-
-#guardo se ha letto correttamente
-#print(p2._postcards)
-#print(p2._date) #in realtà non ha molto senso far leggere anche i singoli elementi perché con l'update nei dictionary
-#si sovrascrivono gli elementi uguali (vedi i "from")
-#print(p2._from)
-#print(p2._to)
-
-
-# In[10]:
-
-
-#p3 = postcardclass("txt", [], {}, {}, {})
-#p3._postcards = ["date:2010-06-23; from:Sneezy; to:Alice;", "date:2011-08-04; from:Louie; to:Grumpy;"]
-#p3.updateFile("txt") #qui aggiorno il file
-
-
-# In[11]:
-
-
-#p2._postcards #qui ho le postcard iniziali
-
-
-# In[12]:
-
-
-#p._postcards == p2._postcards #serve per capire il bug di dopo
-
-
-# In[13]:
-
-
-#p2.updateLists("txt")#qui le aggiorno
-#p2._postcards
-
-
-# In[14]:
-
-
-###########ATTENZIONE###############
-#p._postcards #qui ho le postcard iniziali uguali a quelle di p2!! Ma siccome nella classe le comparo con quelle
-#del self e p.self != p2.self, allora se aggiorno quelle di p, queste si duplicano
-
-
-# In[15]:
-
-
-#p.updateLists("txt")#qui le aggiorno
-#p._postcards
-
-
-# In[16]:
-
-
-#Inoltre se si continua a eseguire
-#p2.updateLists("txt")#qui le aggiorno
-#p2._postcards
-#allora p2._postcards continua ad allungarsi
-
-
-# In[17]:
-
-
-#p2.getNumberOfPostcards()
-
-
-# In[18]:
-
-
-#p2.getPostcardsBySender("from:Dewey;")
-#p2._postcards
-
-
-# In[19]:
-
-
-#p2.getPostcardsByReceiver("to:Happy;")
-#p2._postcards
-
-
-# In[ ]:
