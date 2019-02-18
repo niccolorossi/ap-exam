@@ -14,10 +14,10 @@ docs:
 	doxygen docs/Doxyfile
 
 $(BEN): $(BENSRC)
-	$(CXX)  $< -o $(BEN) $(CXXFLAGS) $(IFLAGS)
+	$(CXX)  $< -o $@ $(CXXFLAGS) $(IFLAGS)
 
 $(TEST): $(TESTSRC)
-	$(CXX)  $< -o $(TEST) $(CXXFLAGS) $(IFLAGS)
+	$(CXX)  $< -o $@ $(CXXFLAGS) $(IFLAGS)
 
 clean:
 	@rm -fr *.x html latex
